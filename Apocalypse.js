@@ -4,10 +4,10 @@ function isNotBlackListed(value, blackList) {
 }
 
 export async function main(ns) {
-	var here = ns.getHostname();
-	var blackList = [];
+	const here = ns.getHostname();
+	const blackList = [];
 	if (ns.args) {
-		for (var i = 0; i < ns.args.length; ++i) {
+		for (let i = 0; i < ns.args.length; ++i) {
 			blackList.push(ns.args[i]);
 		}
 		blackList.push(here)
@@ -16,12 +16,11 @@ export async function main(ns) {
 		blackList.push("home");
 	}
 
-	var servers = ns.scan(here).filter(value => { return isNotBlackListed(value, blackList) });
+	const servers = ns.scan(here).filter(value => { return isNotBlackListed(value, blackList) });
 
 	if (servers.length > 0) {
-		for (var i = 0; i < servers.length; ++i) {
-			var target = servers[i];
-			var threads = ((ns.getServerMaxRam(target) - ns.getServerUsedRam(target)) / ns.getScriptRam("Apocalypse.js"));
+		for (let i = 0; i < servers.length; ++i) {
+			const target = servers[i];
 
 			if (await ns.killall(target)) {
 				await ns.scp("Apocalypse.js", target);

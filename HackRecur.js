@@ -4,10 +4,10 @@ function isNotBlackListed(value, blackList) {
 }
 
 export async function main(ns) {
-	var here = ns.getHostname();
-	var blackList = [];
+	const here = ns.getHostname();
+	const blackList = [];
 	if (ns.args[1]) {
-		for (var i = 1; i < ns.args.length; ++i) {
+		for (let i = 1; i < ns.args.length; ++i) {
 			blackList.push(ns.args[i]);
 		}
 		blackList.push(here)
@@ -16,16 +16,16 @@ export async function main(ns) {
 		blackList.push("home");
 	}
 
-	var servers = ns.scan(here).filter(value => { return isNotBlackListed(value, blackList) });
+	const servers = ns.scan(here).filter(value => { return isNotBlackListed(value, blackList) });
 
 	if (servers.length > 0) {
-		for (var i = 0; i < servers.length; ++i) {
-			var target = servers[i];
-			var threads = ((ns.getServerMaxRam(target) - ns.getServerUsedRam(target)) / ns.getScriptRam("SimpleHack.js"));
-			var min = ((ns.getServerMaxRam(target) - ns.getServerUsedRam(target)) / ns.getScriptRam("HackRecur.js"));
+		for (let i = 0; i < servers.length; ++i) {
+			const target = servers[i];
+			const threads = ((ns.getServerMaxRam(target) - ns.getServerUsedRam(target)) / ns.getScriptRam("SimpleHack.js"));
+			const min = ((ns.getServerMaxRam(target) - ns.getServerUsedRam(target)) / ns.getScriptRam("HackRecur.js"));
 
 			if (target.substring(0, 5) == "pserv") {
-				var globalTarget = "harakiri-sushi";
+				const globalTarget = "harakiri-sushi";
 				await ns.exec("SimpleHack.js", target, threads, globalTarget);
 				await ns.tprint("'SimpleHack.js' booted on " + target);
 			}
@@ -34,11 +34,11 @@ export async function main(ns) {
 					if (isNotBlackListed(target, blackList)) {
 						await ns.scp(["HackRecur.js", "SimpleHack.js"], target);
 					}
-					var hLevel = ns.getHackingLevel();
-					var sRHL = ns.getServerRequiredHackingLevel(target);
+					const hLevel = ns.getHackingLevel();
+					const sRHL = ns.getServerRequiredHackingLevel(target);
 
 					if (hLevel > sRHL) {
-						var ports = ns.getServerNumPortsRequired(target);
+						const ports = ns.getServerNumPortsRequired(target);
 
 						if (ports > 0) {
 							if (ns.fileExists("BruteSSH.exe", "home")) {
