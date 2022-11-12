@@ -32,6 +32,6 @@ export async function main(ns) {
 		await ns.tprint("Terminating 'Apocalypse.js' at " + here);
 	}
 	else {
-		await ns.tprint("Successfully terminating 'Apocalypse.js at home")
+		await ns.tprint("Successfully terminating 'Apocalypse.js' at home")
 	}
 }
