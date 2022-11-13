@@ -24,8 +24,7 @@ async function main(ns) {
             const min = (ns.getServerMaxRam(target) - ns.getServerUsedRam(target)) / ns.getScriptRam("HackRecur.js");
             if (target.substring(0, 5) == "pserv") {
                 const globalTarget = "silver-helix";
-                await ns.exec("SimpleHack.js", target, threads, globalTarget);
-                await ns.tprint("'SimpleHack.js' booted on " + target);
+                await await ns.tprint("'SimpleHack.js' booted on " + target + " | " + ns.exec("SimpleHack.js", target, threads, globalTarget));
             } else {
                 if (ns.fileExists("HackRecur.js", here) && ns.fileExists("SimpleHack.js", here) && threads > 1) {
                     if (isNotBlackListed(target, blackList)) {
@@ -49,7 +48,7 @@ async function main(ns) {
                                 await ns.nuke(target);
                             }
                             if (min > 1) {
-                                await ns.exec("HackRecur.js", target, 1, target, ...blackList);
+                                await ns.tprint("Recuring from " + here + " to " + target + " | " + (0 < ns.exec("HackRecur.js", target, 1, target, ...blackList)));
                                 while(await ns.getServerUsedRam(target) > 0){
                                     await ns.sleep(100);
                                 }
