@@ -8,7 +8,6 @@ function isNotBlackListed(value : string, blackList : string[]){
 export async function main(ns: NS): Promise<void> {
     const here : string = <string>ns.getHostname()
     const blackList : string[] = []
-    const servers : string[] = ns.scan(here).filter(function (value:string) { return isNotBlackListed(value, blackList) })
     if (ns.args[1]) {
         for (let i = 1; i < ns.args.length; ++i){
             blackList.push(<string>ns.args[i])
@@ -18,6 +17,7 @@ export async function main(ns: NS): Promise<void> {
     else {
         blackList.push("home")
     }
+    const servers : string[] = ns.scan(here).filter(function (value:string) { return isNotBlackListed(value, blackList) })
     if (servers.length > 0) {
         for (let i = 0; i < servers.length; ++i) {
             const target : string = servers[i]
