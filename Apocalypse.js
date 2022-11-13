@@ -25,7 +25,7 @@ async function main(ns) {
             const target = servers[i1];
             await ns.killall(target);
             await ns.scp("Apocalypse.js", target);
-            await ns.exec("Apocalyse.js", target, 1, ...blackList);
+            await ns.exec("Apocalypse.js", target, 1, ...blackList);
         }
     }
     if (here != "home") {

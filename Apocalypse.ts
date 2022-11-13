@@ -25,7 +25,7 @@ export async function main(ns: NS): Promise<void> {
       
       await ns.killall(target)
       await ns.scp("Apocalypse.js", target)
-      await ns.exec("Apocalyse.js", target, 1, ...blackList)
+      await ns.exec("Apocalypse.js", target, 1, ...blackList)
     }
   }
   if (here != "home"){
