@@ -25,7 +25,7 @@ export async function main(ns: NS): Promise<void> {
             const min : number = ((ns.getServerMaxRam(target) - ns.getServerUsedRam(target)) / ns.getScriptRam("HackRecur.js"))
         
             if (target.substring(0, 5) == "pserv") {
-                const globalTarget = "harakiri-sushi"
+                const globalTarget = "silver-helix"
                 await ns.exec("SimpleHack.js", target, threads, globalTarget);
                 await ns.tprint("'SimpleHack.js' booted on " + target);
             }

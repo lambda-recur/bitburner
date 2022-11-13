@@ -23,7 +23,7 @@ async function main(ns) {
             const threads = (ns.getServerMaxRam(target) - ns.getServerUsedRam(target)) / ns.getScriptRam("SimpleHack.js");
             const min = (ns.getServerMaxRam(target) - ns.getServerUsedRam(target)) / ns.getScriptRam("HackRecur.js");
             if (target.substring(0, 5) == "pserv") {
-                const globalTarget = "harakiri-sushi";
+                const globalTarget = "silver-helix";
                 await ns.exec("SimpleHack.js", target, threads, globalTarget);
                 await ns.tprint("'SimpleHack.js' booted on " + target);
             } else {

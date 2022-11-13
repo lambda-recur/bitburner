@@ -13,7 +13,7 @@ export async function main(ns : NS) {
 			if (ns.getServerMoneyAvailable("home") > ns.getPurchasedServerCost(ram)) {
 				const hostname = <string>ns.purchaseServer("pserv-" + ram, ram);
 				await ns.scp("SimpleHack.js", hostname);
-				await ns.exec("SimpleHack.js", hostname, (ram / ns.getScriptRam("SimpleHack.js")), "harakiri-sushi");
+				await ns.exec("SimpleHack.js", hostname, (ram / ns.getScriptRam("SimpleHack.js")), "silver-helix");
 				ram *= 2;
 			}
 			else {
