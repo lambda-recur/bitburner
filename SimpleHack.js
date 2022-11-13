@@ -10,11 +10,10 @@ async function main(ns) {
     while(access){
         if (security > securityThreshold) {
             await ns.weaken(target);
-        }
-        if (stash < moneyThreshold) {
-            await ns.grow(target);
-        } else {
-            await ns.hack(target);
+        } else if (await ns.grow(target) < 0.01) {
+            while(security > securityThreshold && stash > moneyThreshold){
+                await ns.hack(target);
+            }
         }
     }
 }
