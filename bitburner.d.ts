@@ -1120,14 +1120,14 @@ export declare interface EmployeeJobs {
 }
 
 /** @public */
-export declare const enums = {
+/* export declare const enums = {
     toast: {
-        SUCCESS: "success",
-        WARNING: "warning",
-        ERROR: "error",
-        INFO: "info",
+       SUCCESS: "success",
+       WARNING: "warning",
+       ERROR: "error",
+       INFO: "info",
     },
-};
+}; */
 
 /**
  * Object representing data representing a gang member equipment.
@@ -4778,7 +4778,8 @@ export declare interface NS {
      * @param variant - Type of toast, must be one of success, info, warning, error. Defaults to success.
      * @param duration - Duration of toast in ms. Can also be `null` to create a persistent toast. Defaults to 2000
      */
-    toast(msg: string, variant?: ToastVariant, duration?: number | null): void;
+    //bcsimmons
+    //toast(msg: string, variant?: ToastVariant, duration?: number | null): void;
 
     /**
      * Download a file from the internet.
@@ -4963,11 +4964,13 @@ export declare interface NS {
      */
     getSharePower(): number;
 
-    enums: NSEnums;
+    //bcsimmons
+    //enums: NSEnums;
 }
 
 /** @public */
-export declare type NSEnums = typeof enums;
+//bcsimmons
+/* export declare type NSEnums = typeof enums; */
 
 /**
  * Office for a division in a city.
@@ -7181,7 +7184,8 @@ export declare interface TIX {
 }
 
 /** @public */
-export declare type ToastVariant = ValuesFrom<typeof enums.toast>;
+//bcsimmons
+//export declare type ToastVariant = ValuesFrom<typeof enums.toast>;
 
 /**
  * User Interface API.
