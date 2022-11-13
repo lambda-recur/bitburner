@@ -8,7 +8,7 @@ export async function main(ns : NS) {
 		ram *= 2;
 	}
 	
-	while(true) {
+	while(ram < ns.getPurchasedServerMaxRam()) {
 		if (ns.getPurchasedServerLimit() > 0) {
 			if (ns.getServerMoneyAvailable("home") > ns.getPurchasedServerCost(ram)) {
 				const hostname = <string>ns.purchaseServer("pserv-" + ram, ram);

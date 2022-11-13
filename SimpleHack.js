@@ -6,10 +6,13 @@ async function main(ns) {
     const securityThreshold = ns.getServerMinSecurityLevel(target) + 5;
     const access = ns.hasRootAccess(target);
     while(access){
-        if (ns.getServerSecurityLevel(target) > securityThreshold) {
+        const security = ns.getServerSecurityLevel(target);
+        if (security > securityThreshold) {
             await ns.weaken(target);
-        } else if (await ns.grow(target) < 0.01) {
-            while(ns.getServerSecurityLevel(target) > securityThreshold && ns.getServerMoneyAvailable(target) > moneyThreshold){
+        } else {
+            if (ns.getServerMoneyAvailable(target) < moneyThreshold) {
+                await ns.grow(target);
+            } else {
                 await ns.hack(target);
             }
         }
