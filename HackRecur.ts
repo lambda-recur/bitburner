@@ -26,7 +26,6 @@ export async function main(ns: NS): Promise<void> {
         
             if (target.substring(0, 5) == "pserv") {
                 const globalTarget = "silver-helix"
-                await 
                 await ns.tprint("'SimpleHack.js' booted on " + target + " | " + ns.exec("SimpleHack.js", target, threads, globalTarget));
             }
 			else {
@@ -44,10 +43,10 @@ export async function main(ns: NS): Promise<void> {
 							if (ns.fileExists("BruteSSH.exe", "home")) {
 								await ns.brutessh(target);
 								await ns.ftpcrack(target);
+								await ns.relaysmtp(target);
 							}
 						}
-						if (ports < 3) {
-
+						if (ports < 4) {
 							if (!ns.hasRootAccess(target)) {
 								await ns.nuke(target);
 							}

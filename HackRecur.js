@@ -24,7 +24,7 @@ async function main(ns) {
             const min = (ns.getServerMaxRam(target) - ns.getServerUsedRam(target)) / ns.getScriptRam("HackRecur.js");
             if (target.substring(0, 5) == "pserv") {
                 const globalTarget = "silver-helix";
-                await await ns.tprint("'SimpleHack.js' booted on " + target + " | " + ns.exec("SimpleHack.js", target, threads, globalTarget));
+                await ns.tprint("'SimpleHack.js' booted on " + target + " | " + ns.exec("SimpleHack.js", target, threads, globalTarget));
             } else {
                 if (ns.fileExists("HackRecur.js", here) && ns.fileExists("SimpleHack.js", here) && threads > 1) {
                     if (isNotBlackListed(target, blackList)) {
@@ -41,9 +41,10 @@ async function main(ns) {
                             if (ns.fileExists("BruteSSH.exe", "home")) {
                                 await ns.brutessh(target);
                                 await ns.ftpcrack(target);
+                                await ns.relaysmtp(target);
                             }
                         }
-                        if (ports < 3) {
+                        if (ports < 4) {
                             if (!ns.hasRootAccess(target)) {
                                 await ns.nuke(target);
                             }
