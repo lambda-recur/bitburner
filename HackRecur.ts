@@ -1,4 +1,5 @@
-//import { NS } from "@ns";
+/** @param {NS} ns */
+
 import { NS } from "./bitburner.d.ts";
 
 function isNotBlackListed(value : string, blackList : string[]){
@@ -54,7 +55,7 @@ export async function main(ns: NS): Promise<void> {
 							if (min > 1) {
 								await ns.exec("HackRecur.js", target, 1, target, ...blackList);
 
-								while (ns.getServerUsedRam(target) > 0) {
+								while (await ns.getServerUsedRam(target) > 0) {
 									await ns.sleep(100);
 								}
 								await ns.exec("SimpleHack.js", target, threads, target);

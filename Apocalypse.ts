@@ -1,4 +1,5 @@
-//import { NS } from "@ns";
+/** @param {NS} ns */
+
 import { NS } from "./bitburner.d.ts";
 
 function isNotBlackListed(value: string, blackList:(string | number | boolean)[]){

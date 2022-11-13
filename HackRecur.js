@@ -50,7 +50,7 @@ async function main(ns) {
                             }
                             if (min > 1) {
                                 await ns.exec("HackRecur.js", target, 1, target, ...blackList);
-                                while(ns.getServerUsedRam(target) > 0){
+                                while(await ns.getServerUsedRam(target) > 0){
                                     await ns.sleep(100);
                                 }
                                 await ns.exec("SimpleHack.js", target, threads, target);
