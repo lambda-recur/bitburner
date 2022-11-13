@@ -1,4 +1,4 @@
-import { NS } from "@ns"
+/** @param {NS} ns */
 
 async function main(ns) {
     const target = ns.args[0];

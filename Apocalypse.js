@@ -1,4 +1,7 @@
-import { NS } from "@ns"
+// deno-fmt-ignore-file
+// deno-lint-ignore-file
+// This code was bundled using `deno bundle` and it's not recommended to edit it manually
+/** @param {NS} ns */
 
 function isNotBlackListed(value, blackList) {
     return !blackList.includes(value);
@@ -20,10 +23,9 @@ async function main(ns) {
     if (servers.length > 0) {
         for(let i1 = 0; i1 < servers.length; ++i1){
             const target = servers[i1];
-            if (await ns.killall(target)) {
-                await ns.scp("Apocalypse.js", target);
-                ns.exec("Apocalyse.js", target, 1, ...blackList);
-            }
+            await ns.killall(target);
+            await ns.scp("Apocalypse.js", target);
+            await ns.exec("Apocalyse.js", target, 1, ...blackList);
         }
     }
     if (here != "home") {

@@ -22,11 +22,10 @@ export async function main(ns: NS): Promise<void> {
   if (servers.length > 0) {
     for (let i  = 0; i < servers.length; ++i) {
       const target : string = servers[i]
-
-      if (await ns.killall(target)) {
-        await ns.scp("Apocalypse.js", target)
-        ns.exec("Apocalyse.js", target, 1, ...blackList)
-      }
+      
+      await ns.killall(target)
+      await ns.scp("Apocalypse.js", target)
+      await ns.exec("Apocalyse.js", target, 1, ...blackList)
     }
   }
   if (here != "home"){

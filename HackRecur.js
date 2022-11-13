@@ -1,4 +1,4 @@
-import { NS } from "@ns";
+/** @param {NS} ns */
 
 function isNotBlackListed(value, blackList) {
     return !blackList.includes(value);
