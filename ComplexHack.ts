@@ -12,22 +12,17 @@ export async function main(ns: NS): Promise<void> {
 
   while (access) {
     while (
-      ns.getServerSecurityLevel(target) > ns.getServerMoneyAvailable(target)
+      ns.getServerSecurityLevel(target) > ns.getServerMinSecurityLevel(target)
     ) {
-      const weaken = Math.max(
-        threads,
-        (ns.getServerSecurityLevel(target) -
-          ns.getServerMinSecurityLevel(target)) / 0.05,
-      );
-      await ns.weaken(target, {threads: weaken})
+      await ns.weaken(target, { threads: threads });
     }
     while (ns.getServerMoneyAvailable(target) < moneyThreshold) {
       await ns.grow(target, { threads: threads });
       await ns.weaken(target, { threads: (threads * 0.004 / 0.05) });
     }
     await ns.grow(target, { threads: threads });
-    await ns.weaken(target, { threads: (threads * 0.004 / 0.05) });
+    await ns.weaken(target, { threads: threads });
     await ns.hack(target, { threads: hack });
-    await ns.weaken(target, { threads: (threads * 0.002 / 0.05) });
+    await ns.weaken(target, { threads: threads });
   }
 }

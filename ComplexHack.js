@@ -8,10 +8,9 @@ async function main(ns) {
     const moneyThreshold = ns.getServerMaxMoney(target) * 0.90;
     const access = ns.hasRootAccess(target);
     while(access){
-        while(ns.getServerSecurityLevel(target) > ns.getServerMoneyAvailable(target)){
-            const weaken = Math.max(threads, (ns.getServerSecurityLevel(target) - ns.getServerMinSecurityLevel(target)) / 0.05);
+        while(ns.getServerSecurityLevel(target) > ns.getServerMinSecurityLevel(target)){
             await ns.weaken(target, {
-                threads: weaken
+                threads: threads
             });
         }
         while(ns.getServerMoneyAvailable(target) < moneyThreshold){
@@ -26,13 +25,13 @@ async function main(ns) {
             threads: threads
         });
         await ns.weaken(target, {
-            threads: threads * 0.004 / 0.05
+            threads: threads
         });
         await ns.hack(target, {
             threads: hack
         });
         await ns.weaken(target, {
-            threads: threads * 0.002 / 0.05
+            threads: threads
         });
     }
 }
