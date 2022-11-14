@@ -6,14 +6,17 @@ async function main(ns: NS) {
   const here = ns.getHostname();
   const script1 = "ComplexHack.js";
   const script2 = "Weaken.js";
-  let source: string;
-  if (ns.args[0]) {
-    source = <string> ns.args[0];
+  let blackList: string[] = []
+  if (ns.args.length > 0) {
+    for (let i = 1; i < ns.args.length; ++i){
+      blackList.push(<string>ns.args[i])
+      blackList.push(here)
+    }
   } else {
-    source = "home";
+    blackList.push("home")
   }
   const servers = ns.scan(here).filter(function (target: string) {
-    return target != source;
+    return !blackList.includes(target);
   });
   if (servers.length > 0) {
     for (let i = 0; i < servers.length; ++i) {
@@ -59,18 +62,18 @@ async function main(ns: NS) {
             if (min > 1) {
               await ns.tprint(
                 "Recuring from " + here + " to " + target + " | " +
-                  (0 < ns.exec("HackRecur.js", target, 1, source)),
+                  (0 < ns.exec("HackRecur.js", target, 1, ...blackList.concat(servers))),
               );
             }
             else {
               await ns.exec(script2, target, threads2)
             }
-            if (here != "home") {
-              ns.spawn(script2, threads2, here);
-            }
           }
         }
       }
+    }
+    if (here != "home") {
+      ns.spawn(script2, ns.getServerMaxRam(here) / ns.getScriptRam(script2));
     }
   }
 }

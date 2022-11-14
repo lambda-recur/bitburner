@@ -2,9 +2,6 @@
 
 import { NS } from "./bitburner.d.ts";
 
-function isNotBlackListed(value: string, blackList:(string | number | boolean)[]){
-  return !blackList.includes(value)
-}
 export async function main(ns: NS): Promise<void> {
   const here : string = ns.getHostname()
   const blackList : (string | number | boolean)[] = [];
@@ -18,7 +15,7 @@ export async function main(ns: NS): Promise<void> {
   else {
     blackList.push("home")
   }
-  const servers : string[] = ns.scan(here).filter(function(value:string) {return isNotBlackListed(value, blackList)})
+  const servers : string[] = ns.scan(here).filter(function(target:string) {return !blackList.includes(target)})
 
   if (servers.length > 0) {
     for (let i  = 0; i < servers.length; ++i) {
@@ -26,7 +23,7 @@ export async function main(ns: NS): Promise<void> {
       
       await ns.killall(target)
       await ns.scp("Apocalypse.js", target)
-      await ns.exec("Apocalypse.js", target, 1, ...blackList)
+      await ns.exec("Apocalypse.js", target, 1, ...blackList.concat(servers))
     }
   }
   if (here != "home"){

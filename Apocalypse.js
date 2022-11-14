@@ -1,8 +1,5 @@
 /** @param {NS} ns */
 
-function isNotBlackListed(value, blackList) {
-    return !blackList.includes(value);
-}
 async function main(ns) {
     const here = ns.getHostname();
     const blackList = [];
@@ -14,15 +11,15 @@ async function main(ns) {
     } else {
         blackList.push("home");
     }
-    const servers = ns.scan(here).filter(function(value) {
-        return isNotBlackListed(value, blackList);
+    const servers = ns.scan(here).filter(function(target) {
+        return !blackList.includes(target);
     });
     if (servers.length > 0) {
         for(let i1 = 0; i1 < servers.length; ++i1){
             const target = servers[i1];
             await ns.killall(target);
             await ns.scp("Apocalypse.js", target);
-            await ns.exec("Apocalypse.js", target, 1, ...blackList);
+            await ns.exec("Apocalypse.js", target, 1, ...blackList.concat(servers));
         }
     }
     if (here != "home") {

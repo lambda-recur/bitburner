@@ -4,18 +4,21 @@ async function main(ns) {
     const here = ns.getHostname();
     const script1 = "ComplexHack.js";
     const script2 = "Weaken.js";
-    let source;
-    if (ns.args[0]) {
-        source = ns.args[0];
+    let blackList = [];
+    if (ns.args.length > 0) {
+        for(let i = 1; i < ns.args.length; ++i){
+            blackList.push(ns.args[i]);
+            blackList.push(here);
+        }
     } else {
-        source = "home";
+        blackList.push("home");
     }
     const servers = ns.scan(here).filter(function(target) {
-        return target != source;
+        return !blackList.includes(target);
     });
     if (servers.length > 0) {
-        for(let i = 0; i < servers.length; ++i){
-            const target = servers[i];
+        for(let i1 = 0; i1 < servers.length; ++i1){
+            const target = servers[i1];
             const maxRam = ns.getServerMaxRam(target);
             const threads2 = maxRam / ns.getScriptRam(script2);
             const min = (ns.getServerMaxRam(target) - ns.getServerUsedRam(target)) / ns.getScriptRam("HackRecur.js");
@@ -52,16 +55,16 @@ async function main(ns) {
                             await ns.nuke(target);
                         }
                         if (min > 1) {
-                            await ns.tprint("Recuring from " + here + " to " + target + " | " + (0 < ns.exec("HackRecur.js", target, 1, source)));
+                            await ns.tprint("Recuring from " + here + " to " + target + " | " + (0 < ns.exec("HackRecur.js", target, 1, ...blackList.concat(servers))));
                         } else {
                             await ns.exec(script2, target, threads2);
-                        }
-                        if (here != "home") {
-                            ns.spawn(script2, threads2, here);
                         }
                     }
                 }
             }
+        }
+        if (here != "home") {
+            ns.spawn(script2, ns.getServerMaxRam(here) / ns.getScriptRam(script2));
         }
     }
 }
