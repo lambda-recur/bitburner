@@ -23,7 +23,7 @@ export async function main(ns: NS): Promise<void> {
       
       await ns.killall(target)
       await ns.scp("Apocalypse.js", target)
-      await ns.exec("Apocalypse.js", target, 1, ...blackList.concat(servers))
+      await ns.exec("Apocalypse.js", target, 1, ...blackList)
     }
   }
   if (here != "home"){

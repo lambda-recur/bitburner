@@ -18,7 +18,7 @@ export async function main(ns: NS): Promise<void> {
     }
     while (ns.getServerMoneyAvailable(target) < moneyThreshold) {
       await ns.grow(target, { threads: threads });
-      await ns.weaken(target, { threads: (threads * 0.004 / 0.05) });
+      await ns.weaken(target, { threads: threads});
     }
     await ns.grow(target, { threads: threads });
     await ns.weaken(target, { threads: threads });
