@@ -4,30 +4,24 @@ import { NS } from "./bitburner.d.ts";
 
 async function main(ns: NS) {
   const here = ns.getHostname();
-  function scanRecur(server: string, serverList: string[]) {
-    const servers = ns.scan(server).filter(function (target: string) {
-      return !serverList.includes(target);
-    });
-    const newServerList: string[] = serverList;
 
-    if (servers.length > 0) {
-      for (let i = 0; i < servers.length; ++i) {
-        const newServers = scanRecur(server, serverList);
-        if (newServers) {
-          for (let i = 0; i < newServers.length; ++i) {
-            const newServer = newServers[i];
-            if (!newServerList.includes(newServer)) {
-              newServerList.push(newServer);
-            }
-          }
-        }
-      }
-      return servers.concat(newServerList);
-    }
-  }
   const script1 = "ComplexHack.js";
   const script2 = "Weaken.js";
-  const targetServers = scanRecur(here, ["home"]);
+  const targetServers :string[] = ns.scan(here);
+  const blackList : string[] = [here];
+  let newServers;
+  let scanServers;
+  while ((newServers = targetServers.filter(function (value:string) { return !blackList.includes(value)})).length > 0) {
+    for (let i = 0; i < newServers.length; ++i) {
+      const newServer = newServers[i]
+      targetServers.push(newServer)
+      blackList.push(newServer)
+      scanServers = ns.scan(newServer).filter(function (value:string) { return !blackList.includes(value)})
+      for (let i = 0; i < scanServers.length; ++i) {
+        targetServers.push(scanServers[i])
+      }
+    }
+  }
   if (targetServers) {
     for (let i = 0; i < targetServers.length; ++i) {
       const target = targetServers[i];
