@@ -1,4 +1,6 @@
-/** @param {NS} ns */
+// deno-fmt-ignore-file
+// deno-lint-ignore-file
+// This code was bundled using `deno bundle` and it's not recommended to edit it manually
 
 async function main(ns) {
     const target = ns.args[0];
@@ -18,7 +20,7 @@ async function main(ns) {
                 threads: threads
             });
             await ns.weaken(target, {
-                threads: threads * 0.004 / 0.05
+                threads: threads
             });
         }
         await ns.grow(target, {
