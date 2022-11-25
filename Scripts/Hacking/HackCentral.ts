@@ -1,12 +1,12 @@
 /** @param {NS} ns */
 
-import { NS } from "./bitburner.d.ts";
+import { NS } from "bitburner.d.ts";
 
 async function main(ns: NS) {
   const here = ns.getHostname();
 
   const script1 = "ComplexHack.js";
-  const script2 = "Weaken.js";
+  const script2 = "WeakenLoop.js";
   const targetServers :string[] = ns.scan(here);
   const blackList : string[] = [here];
   let newServers;

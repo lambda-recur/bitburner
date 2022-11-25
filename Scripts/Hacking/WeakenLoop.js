@@ -1,7 +1,8 @@
 /** @param {NS} ns */
 
 async function main(ns) {
-    const target = ns.args[0];
-    await ns.weaken(target);
+    while(true){
+        await ns.weaken(ns.getHostname());
+    }
 }
 export { main as main };

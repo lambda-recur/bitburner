@@ -1,6 +1,6 @@
 /** @param {NS} ns */
 
-import { NS } from "./bitburner.d.ts";
+import { NS } from "bitburner.d.ts";
 
 export async function main(ns : NS) {
 	let ram = <number>ns.args[0];

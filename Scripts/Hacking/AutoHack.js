@@ -9,7 +9,7 @@ async function main(ns) {
     let growMultiplier;
     let growAmount;
     let hackAmount;
-    let hack = threads;
+    const hack = ns.args[2];
     while(access){
         while(ns.getServerSecurityLevel(target) > ns.getServerMinSecurityLevel(target)){
             await ns.weaken(target, {
@@ -23,7 +23,7 @@ async function main(ns) {
             await ns.weaken(target);
         }
         while(!(hackAmount = await ns.hack(target, {
-            threads: hackAmount && growAmount ? growAmount - hackAmount > 0 ? hack = (growAmount - hackAmount / growAmount) * hack + hack : hack = growAmount / hackAmount * hack: hack
+            threads: hack
         })) && ns.getServerMoneyAvailable(target) > moneyThreshold && await ns.weaken(target)){
             if (hackAmount == 1) {
                 await ns.grow(target);

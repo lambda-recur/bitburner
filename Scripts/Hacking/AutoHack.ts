@@ -1,6 +1,6 @@
 /** @param {NS} ns */
 
-import { NS } from "./bitburner.d.ts";
+import { NS } from "bitburner.d.ts";
 
 export async function main(ns: NS): Promise<void> {
     const target = <string>ns.args[0];
@@ -11,7 +11,7 @@ export async function main(ns: NS): Promise<void> {
     let growMultiplier;
     let growAmount;
     let hackAmount;
-    let hack = threads;
+    const hack = <number>ns.args[2];
     while (access) {
         while (ns.getServerSecurityLevel(target) > ns.getServerMinSecurityLevel(target)) {
             await ns.weaken(target, {
@@ -24,9 +24,7 @@ export async function main(ns: NS): Promise<void> {
             growAmount =(growAmount) ? Math.max(growAmount, newGrowAmount) : newGrowAmount;
             await ns.weaken(target);
         }
-        while (!(hackAmount = await ns.hack(target, { threads:  ((hackAmount && growAmount) ?
-                ((growAmount - hackAmount) > 0) ? (hack = (growAmount - hackAmount / growAmount) * hack + hack) : (hack = growAmount / hackAmount * hack)
-                : hack)}))
+        while (!(hackAmount = await ns.hack(target, { threads: hack}))
             && (ns.getServerMoneyAvailable(target) > moneyThreshold)
             && (await ns.weaken(target))) {
             if (hackAmount == 1) {

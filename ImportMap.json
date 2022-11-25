@@ -1,0 +1,5 @@
+{
+    "imports": {
+        "bitburner.d.ts": "./bitburner-dev/dist/bitburner.d.ts"
+    }
+}

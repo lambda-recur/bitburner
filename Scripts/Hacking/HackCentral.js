@@ -3,7 +3,7 @@
 async function main(ns) {
     const here = ns.getHostname();
     const script1 = "ComplexHack.js";
-    const script2 = "Weaken.js";
+    const script2 = "WeakenLoop.js";
     const targetServers = ns.scan(here);
     const blackList = [
         here
