@@ -49,5 +49,5 @@ export async function main(ns: NS): Promise<void> {
     }
     paths = newPaths;
   }
-  await ns.tprint(path);
+  await ns.tprint("connect " + <string>path.slice(1).join(";connect "));
 }

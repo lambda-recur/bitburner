@@ -53,5 +53,8 @@ export async function main(ns: NS): Promise<void> {
     }
   }
   const shortPath = validPaths([[here]],dest)
-  await ns.tprint(shortPath.next().value);
+  let nextShortPath;
+  if ((nextShortPath = shortPath.next().value)) {
+  await ns.tprint("connect " + nextShortPath.slice(1).join(";connect "));
+  }
 }

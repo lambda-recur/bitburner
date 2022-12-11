@@ -8,14 +8,11 @@ function stageRest(loopInit: number, stage: number, initBuffer: number) {
 
 export async function main(ns: NS): Promise<void> {
   const target = <string> ns.args[0];
+  const threads = <number> ns.args[1];
   const here = <string> ns.getHostname();
   const weaken = "Weaken.js";
   const hack = "Hack.js";
   const grow = "Grow.js";
-  let threads = Math.floor(
-    (ns.getServerMaxRam(here) - ns.getServerUsedRam(here) - 32) /
-      ns.getScriptRam("Hack.js"),
-  );
   const hackPerThread = ns.hackAnalyze(target) * ns.getServerMaxMoney(target);
   const maxGrowPerThread = 0.9 * ns.getServerMaxMoney(target) /
     ns.growthAnalyze(target, 10, ns.getServer(ns.getHostname()).cpuCores);
@@ -35,14 +32,10 @@ export async function main(ns: NS): Promise<void> {
       1);
   const minSecurity = ns.getServerMinSecurityLevel(target);
   const timingLimit = 200;
-  const maxScripts = 500;
+  const maxScripts = 50;
   let security;
   await ns.tail();
   while (minSecurity <= (security = ns.getServerSecurityLevel(target))) {
-    threads = Math.floor(
-      (ns.getServerMaxRam(here) - ns.getServerUsedRam(here) - 32) /
-        ns.getScriptRam("Weaken.js"),
-    );
     if (minSecurity < security) {
       await ns.run(weaken, threads, target);
       await ns.sleep(ns.getWeakenTime(target) + timingLimit);
@@ -96,7 +89,9 @@ export async function main(ns: NS): Promise<void> {
       if (Math.ceil((performance.now() + growExecTime) / initBuffer) % 4 == 0) {
         ns.run(weaken, weakenThreads1, target, stage);
         weakenQueue1.push(performance.now() + weakenExecTime);
-      } else if (Math.ceil((performance.now() + growExecTime) / initBuffer) % 4 == 2) {
+      } else if (
+        Math.ceil((performance.now() + growExecTime) / initBuffer) % 4 == 2
+      ) {
         ns.run(weaken, weakenThreads2, target, stage);
         weakenQueue2.push(performance.now() + weakenExecTime);
       }

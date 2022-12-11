@@ -1,5 +1,7 @@
 {
     "imports": {
-        "bitburner.d.ts": "./bitburner-dev/dist/bitburner.d.ts"
+        "bitburner.d.ts": "./bitburner-dev/dist/bitburner.d.ts",
+        "http/": "https://deno.land/std/http/",
+        "media_types/": "https://deno.land/std/media_types/"
     }
 }

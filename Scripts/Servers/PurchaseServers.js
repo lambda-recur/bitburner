@@ -2,24 +2,54 @@
 
 async function main(ns) {
     let ram = ns.args[0];
+    const pservers = ns.getPurchasedServers();
+    let equivalentServers;
     while(ns.getPurchasedServerCost(ram * 2) < ns.getServerMoneyAvailable("home")){
         ram *= 2;
     }
     while(true){
+        const targetServers = new Set();
+        let newServers = [
+            "home"
+        ];
+        let scanServers;
+        while(newServers.length > 0){
+            for (const newServer of newServers){
+                scanServers = ns.scan(newServer);
+                for (const scanServer of scanServers){
+                    if (!targetServers.has(scanServer)) {
+                        newServers.push(scanServer);
+                    }
+                }
+                targetServers.add(newServer);
+            }
+            newServers = newServers.filter(function(server) {
+                return !targetServers.has(server);
+            });
+        }
+        const targets = Array.from(targetServers).filter(function(target) {
+            return ns.hasRootAccess(target) && ns.getServerMaxMoney(target) > 1;
+        });
         if (ns.getPurchasedServerLimit() > 0) {
-            if (ns.getServerMoneyAvailable("home") > ns.getPurchasedServerCost(ram)) {
-                const hostname = ns.purchaseServer("pserv-" + ram, ram);
-                await ns.scp("SimpleHack.js", hostname);
-                await ns.exec("SimpleHack.js", hostname, ram / ns.getScriptRam("SimpleHack.js"), "silver-helix");
-                ram *= 2;
+            equivalentServers = pservers.filter(function(value) {
+                return ram == ns.getServerMaxRam(value);
+            });
+            if (ns.getServerMoneyAvailable("home") > ns.getPurchasedServerCost(ram) && pservers.length < targets.length) {
+                ns.purchaseServer("pserv-" + ram + "-" + equivalentServers.length, ram);
+                ram = Math.min(ns.getPurchasedServerMaxRam(), ram * 2);
+                await ns.run("HackCentral.js", 1);
+            }
+            if (equivalentServers.length < 25) {
+                await ns.sleep(300000);
             } else {
-                await ns.sleep(3600000);
+                ns.exit();
             }
         } else {
-            const servers = ns.getPurchasedServers();
-            const rams = servers.map((hostname)=>ns.getServerMaxRam(hostname));
-            const least = Math.min(...rams);
-            await ns.deleteServer(servers[rams.indexOf(least)]);
+            const pserversSorted = ns.getPurchasedServers().sort(function(aServer, bServer) {
+                return ns.getServerMaxRam(aServer) - ns.getServerMaxRam(bServer);
+            });
+            ram *= 2;
+            await ns.deleteServer(pserversSorted[0]);
         }
     }
 }

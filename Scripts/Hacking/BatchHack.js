@@ -5,11 +5,11 @@ function stageRest(loopInit, stage, initBuffer) {
 }
 async function main(ns) {
     const target = ns.args[0];
-    const here = ns.getHostname();
+    const threads = ns.args[1];
+    ns.getHostname();
     const weaken = "Weaken.js";
     const hack = "Hack.js";
     const grow = "Grow.js";
-    let threads = Math.floor((ns.getServerMaxRam(here) - ns.getServerUsedRam(here) - 32) / ns.getScriptRam("Hack.js"));
     const hackPerThread = ns.hackAnalyze(target) * ns.getServerMaxMoney(target);
     const maxGrowPerThread = 0.9 * ns.getServerMaxMoney(target) / ns.growthAnalyze(target, 10, ns.getServer(ns.getHostname()).cpuCores);
     const maxGrow = maxGrowPerThread * threads;
@@ -22,7 +22,6 @@ async function main(ns) {
     let security;
     await ns.tail();
     while(minSecurity <= (security = ns.getServerSecurityLevel(target))){
-        threads = Math.floor((ns.getServerMaxRam(here) - ns.getServerUsedRam(here) - 32) / ns.getScriptRam("Weaken.js"));
         if (minSecurity < security) {
             await ns.run(weaken, threads, target);
             await ns.sleep(ns.getWeakenTime(target) + 200);
@@ -42,7 +41,7 @@ async function main(ns) {
         let weakenExecTime = ns.getWeakenTime(target);
         let hackExecTime = ns.getHackTime(target);
         const minThreads = Math.ceil(weakenRatio2 / weakenRatio1) + Math.ceil(1) + Math.ceil(weakenRatio2 / growRatio) + Math.ceil(weakenRatio2 / hackRatio);
-        const initBuffer = Math.max(200, weakenExecTime / (500 / 2), weakenExecTime * (minThreads / threads));
+        const initBuffer = Math.max(200, weakenExecTime / (50 / 2), weakenExecTime * (minThreads / threads));
         const cycles = Math.ceil(weakenExecTime / initBuffer);
         const initThreads = Math.floor(Math.floor(threads / cycles) * 4);
         const weakenThreads1 = Math.ceil(initThreads * weakenRatio1);
